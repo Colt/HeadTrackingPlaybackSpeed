@@ -1,7 +1,11 @@
 <!doctype html>
-<script type="text/javascript" src="js/paper.js"></script>
+
+<script type="text/javascript" src="jquery.js"></script>
 <script src="http://jeromeetienne.github.com/tquery/build/tquery-bundle-require.js"></script>
 <script>
+
+
+
 
 if (typeof AudioContext == "function") {
     var audioContext = new AudioContext();
@@ -31,40 +35,104 @@ function slowDown() {
     source.playbackRate.value -= 0.1;
 }
 </script>
+
+<link href='http://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
+<div class="gauge">
+            <ul class="meter">
+                <li class="low"></li>
+                <li class="normal"></li>
+                <li class="high"></li>
+            </ul>
+
+            <div class="dial">
+                    <div class="inner">
+                        <div class="arrow">
+                        </div>
+                    </div>
+            </div>
+
+            <div class="value">
+                0%
+            </div>
+
+        </div>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
+
+
+var dial = $(".dial .inner");
+    var gauge_value = $(".gauge .value");
+
+        function rotateDial()
+        {
+            var deg = 0;
+            var value = Math.round(Math.random()*100);
+            deg = (value * 177.5) / 100;
+
+            gauge_value.html(value + "%");
+
+            dial.css({'transform': 'rotate('+deg+'deg)'});
+            dial.css({'-ms-transform': 'rotate('+deg+'deg)'});
+            dial.css({'-moz-transform': 'rotate('+deg+'deg)'});
+            dial.css({'-o-transform': 'rotate('+deg+'deg)'});
+            dial.css({'-webkit-transform': 'rotate('+deg+'deg)'});
+        }
+
+
 // trick to get cors on github content
 requirejs.config({ baseUrl : "http://www.corsproxy.com/jeromeetienne.github.com/tquery/plugins/requirejs/examples/" });
 
-last2 = 0;
+last2 = null;
 xpos = 1;
 
 
 
 require(['tquery.headtrackr'], function(){
     // init the world
-    var world    = tQuery.createWorld().boilerplate().start();
+    // var world    = tQuery.createWorld().boilerplate().start();
     var last = 0;
 
     // create the headTracker
     var headTracker    = tQuery.createHeadtrackr().start();
-    headTracker.debugView(true);
+    // headTracker.debugView(true);
+
+    var dial = $(".dial .inner");
+    var gauge_value = $(".gauge .value");
 
 
 
     // add a cube in the world scene
-    var object    = tQuery.createCube().addTo(world);
+    // var object    = tQuery.createCube().addTo(world);
     // make the camera move depending on facetrackingEvent
     headTracker.addEventListener("found", function(event){
-      console.log(event);
+      console.log(event.width);
 
       if(event.width > last2) {
         last2 = event.width;
-        source.playbackRate.value += 0.1;
+        source.playbackRate.value += 0.08;
+        deg = source.playbackRate.value * 100;
+        // $( ".front" ).html(source.playbackRate.value);
+        gauge_value.html(source.playbackRate.deg + "%");
+                    dial.css({'transform': 'rotate('+deg+'deg)'});
+            dial.css({'-ms-transform': 'rotate('+deg+'deg)'});
+            dial.css({'-moz-transform': 'rotate('+deg+'deg)'});
+            dial.css({'-o-transform': 'rotate('+deg+'deg)'});
+            dial.css({'-webkit-transform': 'rotate('+deg+'deg)'});
       }
 
       if(event.width < last2) {
         last2 = event.width;
-        source.playbackRate.value -= 0.1;
+        source.playbackRate.value -= 0.08;
+        deg = source.playbackRate.value * 100;
+        // $( ".front" ).html(source.playbackRate.value);
+        gauge_value.html(source.playbackRate.deg + "%");
+                    dial.css({'transform': 'rotate('+deg+'deg)'});
+            dial.css({'-ms-transform': 'rotate('+deg+'deg)'});
+            dial.css({'-moz-transform': 'rotate('+deg+'deg)'});
+            dial.css({'-o-transform': 'rotate('+deg+'deg)'});
+            dial.css({'-webkit-transform': 'rotate('+deg+'deg)'});
+
       }
 
         object.rotationZ(event.angle)
@@ -75,4 +143,153 @@ require(['tquery.headtrackr'], function(){
 });
 
 </script>
-<body></body>
+<body>
+    <div class="front">
+        1.00
+
+    </div>
+</body>
+
+<style>
+    html, body
+            {
+                padding: 0;
+                margin: 0;
+            }
+
+            body,
+            .dial
+            {
+                background-color: #000;
+                overflow: hidden;
+            }
+
+            .gauge
+            {
+                position: absolute;
+                width: 500px;
+                height: 500px;
+                top: 30px;
+                left: 50%;
+                margin-left: -250px;
+                border-radius: 100%;
+                transform-origin: 50% 50%;
+                -webkit-transform-origin: 50% 50%;
+                -ms-transform-origin: 50% 50%;
+                -webkit-transform: rotate(0deg);
+
+            }
+
+            .meter
+            {
+                margin: 0;
+                padding: 0;
+            }
+
+            .meter > li
+            {
+                width: 250px;
+                height: 250px;
+                list-style-type: none;
+                position: absolute;
+                border-top-left-radius: 250px;
+                border-top-right-radius: 0px;
+                transform-origin:  100% 100%;;
+                -webkit-transform-origin:  100% 100%;;
+                -ms-transform-origin:  100% 100%;;
+                transition-property: -webkit-transform;
+                pointer-events: none;
+            }
+
+            .meter .low
+            {
+                transform: rotate(0deg); /* W3C */
+                -webkit-transform: rotate(0deg); /* Safari & Chrome */
+                -moz-transform: rotate(0deg); /* Firefox */
+                -ms-transform: rotate(0deg); /* Internet Explorer */
+                -o-transform: rotate(0deg); /* Opera */
+                z-index: 8;
+                background-color: #09B84F;
+            }
+
+            .meter .normal
+            {
+                transform: rotate(47deg); /* W3C */
+                -webkit-transform: rotate(47deg); /* Safari & Chrome */
+                -moz-transform: rotate(47deg); /* Firefox */
+                -ms-transform: rotate(47deg); /* Internet Explorer */
+                -o-transform: rotate(47deg); /* Opera */
+                z-index: 7;
+                background-color: #FEE62A;
+            }
+
+            .meter .high
+            {
+                transform: rotate(90deg); /* W3C */
+                -webkit-transform: rotate(90deg); /* Safari & Chrome */
+                -moz-transform: rotate(90deg); /* Firefox */
+                -ms-transform: rotate(90deg); /* Internet Explorer */
+                -o-transform: rotate(90deg); /* Opera */
+                z-index: 6;
+                background-color: #FA0E1C;
+            }
+
+
+            .dial,
+            .dial .inner
+            {
+                width: 470px;
+                height: 470px;
+                position: relative;
+                top: 10px;
+                left: 5px;
+                border-radius: 100%;
+                border-color: purple;
+                z-index: 10;
+                transition-property: -webkit-transform;
+                transition-duration: 1s;
+                transition-timing-function: ease-in-out;
+                transform: rotate(0deg); /* W3C */
+                -webkit-transform: rotate(0deg); /* Safari & Chrome */
+                -moz-transform: rotate(0deg); /* Firefox */
+                -ms-transform: rotate(0deg); /* Internet Explorer */
+                -o-transform: rotate(0deg); /* Opera */
+            }
+
+            .dial .arrow
+            {
+                width: 0;
+                height: 0;
+                position: absolute;
+                top: 214px;
+                left: 24px;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-bottom: 32px solid #FFFFFF;
+                -webkit-transform: rotate(-88deg); /* Safari & Chrome */
+                -moz-transform: rotate(88deg); /* Firefox */
+                -ms-transform: rotate(88deg); /* Internet Explorer */
+                -o-transform: rotate(88deg); /* Opera */
+
+            }
+
+            .gauge .value
+            {
+                font-family: 'Josefin Slab', serif;
+                font-size: 50px;
+                color: #ffffff;
+                position: absolute;
+                top: 142px;
+                left: 45%;
+                z-index: 11;
+            }
+/*canvas{
+    background: blue;
+}*/
+.front{
+    font-size: 64px;
+}
+body{
+    background: grey;
+}
+</style>
