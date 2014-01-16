@@ -146,10 +146,27 @@ require(['tquery.headtrackr'], function(){
 
 </script>
 <body>
-    <div class="front">
+    <div class="info" style="display:none">
+    <p>Please view this page using Google Chrome or Firefox.  It's worth it!</p>
+</div>
+    <div class="message">
         Move your head towards and away from the screen to manipulate the playback speed. For best results, refresh the page with your head about 18 inches from your camera.  Make sure you're in a well-lit room.
     </div>
 </body>
+<script>
+function hasGetUserMedia() {
+        return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia || navigator.msGetUserMedia);
+    }
+
+    if (hasGetUserMedia()) {
+        $(".info").hide();
+        $(".message").show();
+    } else {
+        $(".info").show();
+        $(".message").hide();
+    }
+</script>
 
 <style>
     html, body
@@ -287,7 +304,19 @@ require(['tquery.headtrackr'], function(){
 /*canvas{
     background: blue;
 }*/
-.front{
+.info{
+    position: float;
+    font-family: "Droid Serif", "Helvetica", Helvetica, Arial, sans-serif;
+    margin-right: auto;
+    margin-left: auto;
+    width: 1000px;
+    margin-top: 550px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+
+}
+.message{
     position: float;
     font-family: "Droid Serif", "Helvetica", Helvetica, Arial, sans-serif;
     margin-right: auto;
