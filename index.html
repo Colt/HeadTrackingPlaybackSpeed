@@ -1,0 +1,78 @@
+<!doctype html>
+<script type="text/javascript" src="js/paper.js"></script>
+<script src="http://jeromeetienne.github.com/tquery/build/tquery-bundle-require.js"></script>
+<script>
+
+if (typeof AudioContext == "function") {
+    var audioContext = new AudioContext();
+} else if (typeof webkitAudioContext == "function") {
+    var audioContext = new webkitAudioContext();
+}
+
+var source = audioContext.createBufferSource();
+source.connect(audioContext.destination);
+
+var xhr = new XMLHttpRequest();
+
+xhr.open("GET", "test.mp3", true);
+xhr.responseType = "arraybuffer";
+xhr.onload = function() {
+    var buffer = audioContext.createBuffer(xhr.response, false);
+    source.buffer = buffer;
+    source.noteOn(0);
+};
+xhr.send();
+
+function speedUp() {
+    source.playbackRate.value += 0.1;
+}
+
+function slowDown() {
+    source.playbackRate.value -= 0.1;
+}
+</script>
+<script>
+// trick to get cors on github content
+requirejs.config({ baseUrl : "http://www.corsproxy.com/jeromeetienne.github.com/tquery/plugins/requirejs/examples/" });
+
+last2 = 0;
+xpos = 1;
+
+
+
+require(['tquery.headtrackr'], function(){
+    // init the world
+    var world    = tQuery.createWorld().boilerplate().start();
+    var last = 0;
+
+    // create the headTracker
+    var headTracker    = tQuery.createHeadtrackr().start();
+    headTracker.debugView(true);
+
+
+
+    // add a cube in the world scene
+    var object    = tQuery.createCube().addTo(world);
+    // make the camera move depending on facetrackingEvent
+    headTracker.addEventListener("found", function(event){
+      console.log(event);
+
+      if(event.width > last2) {
+        last2 = event.width;
+        source.playbackRate.value += 0.1;
+      }
+
+      if(event.width < last2) {
+        last2 = event.width;
+        source.playbackRate.value -= 0.1;
+      }
+
+        object.rotationZ(event.angle)
+            .positionX(event.x).positionY(event.y)
+            .scaleX(event.width).scaleY(event.height);
+                });
+
+});
+
+</script>
+<body></body>
