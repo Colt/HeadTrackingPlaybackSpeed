@@ -52,7 +52,7 @@ function slowDown() {
             </div>
 
             <div class="value">
-                0%
+
             </div>
 
         </div>
@@ -113,7 +113,7 @@ require(['tquery.headtrackr'], function(){
         source.playbackRate.value += 0.08;
         deg = source.playbackRate.value * 100;
         // $( ".front" ).html(source.playbackRate.value);
-        gauge_value.html(source.playbackRate.deg + "%");
+        // gauge_value.html(source.playbackRate.deg + "%");
                     dial.css({'transform': 'rotate('+deg+'deg)'});
             dial.css({'-ms-transform': 'rotate('+deg+'deg)'});
             dial.css({'-moz-transform': 'rotate('+deg+'deg)'});
@@ -126,7 +126,7 @@ require(['tquery.headtrackr'], function(){
         source.playbackRate.value -= 0.08;
         deg = source.playbackRate.value * 100;
         // $( ".front" ).html(source.playbackRate.value);
-        gauge_value.html(source.playbackRate.deg + "%");
+        // gauge_value.html(source.playbackRate.deg + "%");
                     dial.css({'transform': 'rotate('+deg+'deg)'});
             dial.css({'-ms-transform': 'rotate('+deg+'deg)'});
             dial.css({'-moz-transform': 'rotate('+deg+'deg)'});
@@ -145,7 +145,7 @@ require(['tquery.headtrackr'], function(){
 </script>
 <body>
     <div class="front">
-        1.00
+       <!--  1.00 -->
 
     </div>
 </body>
