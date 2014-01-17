@@ -115,7 +115,7 @@ require(['tquery.headtrackr'], function(){
     // var object    = tQuery.createCube().addTo(world);
     // make the camera move depending on facetrackingEvent
     headTracker.addEventListener("found", function(event){
-      console.log(event.width);
+      // console.log(event.width);
 
       if(event.width > last2) {
         last2 = event.width;
@@ -143,9 +143,9 @@ require(['tquery.headtrackr'], function(){
             dial.css({'-webkit-transform': 'rotate('+deg+'deg)'});
 
       }
-        object.rotationZ(event.angle)
-            .positionX(event.x).positionY(event.y)
-            .scaleX(event.width).scaleY(event.height);
+        // object.rotationZ(event.angle)
+        //     .positionX(event.x).positionY(event.y)
+        //     .scaleX(event.width).scaleY(event.height);
                 });
 
 });
